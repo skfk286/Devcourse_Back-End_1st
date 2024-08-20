@@ -12,5 +12,11 @@
 </head>
 <body>
 <%@ include file="common/header.jsp"%>
+<br>
+<form action="<%=request.getContextPath()%>/board/write.do">
+    제목 : <input type="text" name="title"><br>
+    내용 : <textarea name="context"></textarea><br>
+    <input type="submit" value="작성완료">
+</form>
 </body>
 </html>

@@ -12,7 +12,7 @@
 
 %>
     <%=loginId%>님 로그인 중이시네요. 환영합니다.
-    <a href="<%=request.getContextPath()%>/logout.do">[로그아웃]</a>
+    <a href="<%=request.getContextPath()%>/member/logout.do">[로그아웃]</a>
 <%
     } else {
 %>
