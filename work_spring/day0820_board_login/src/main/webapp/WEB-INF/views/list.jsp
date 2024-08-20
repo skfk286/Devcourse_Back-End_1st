@@ -29,5 +29,6 @@
         }
     %>
 </table>
+<a href="<%=request.getContextPath()%>/main.do">[메인화면으로]</a>
 </body>
 </html>
