@@ -1,8 +1,9 @@
 package com.grepp.model.service;
 
-import com.grepp.model.BoardDTO;
-import com.grepp.model.BoardRepository;
-import com.grepp.model.BoardRepositoryMysql;
+
+import com.grepp.model.dto.BoardDTO;
+import com.grepp.model.repository.BoardRepository;
+import com.grepp.model.repository.BoardRepositoryMysql;
 
 import java.sql.SQLException;
 import java.util.List;
