@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>글 상세화면</title>
 </head>
 <body>
 <%@ include file="common/header.jsp"%>

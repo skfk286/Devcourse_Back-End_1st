@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class MemberController implements MyController {
 
     @Override
-    public Object handleRequest(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public Object handleRequest(HttpServletRequest req, HttpServletResponse res) {
         return null;
     }
 }
