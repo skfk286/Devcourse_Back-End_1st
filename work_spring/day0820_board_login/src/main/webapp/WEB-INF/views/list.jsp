@@ -14,6 +14,14 @@
 <body>
 <%@ include file="common/header.jsp"%>
 <table border="1">
+    <tr>
+        <th>순번</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>등록 날짜</th>
+        <th>조회수</th>
+        <th>내용</th>
+    </tr>
     <%
         List<BoardDTO> bList = (List<BoardDTO>) request.getAttribute("bList");
         for(BoardDTO b: bList){
@@ -24,6 +32,7 @@
         <td><%=b.getWriter()%></td>
         <td><%=b.getRegDate()%></td>
         <td><%=b.getReadCount()%></td>
+        <td><%=b.getContent()%></td>
     </tr>
     <%
         }
