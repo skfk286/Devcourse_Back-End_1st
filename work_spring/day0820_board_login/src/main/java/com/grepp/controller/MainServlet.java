@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -29,6 +30,17 @@ public class MainServlet extends HttpServlet {
     protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = request.getServletPath();
         System.out.println("request here : " + url);
+
+        // 로그인 세션 처리
+        HttpSession session = request.getSession();
+        String loginId = (String) session.getAttribute("loginId");
+        if(url.startsWith("/board") && !url.endsWith("/list.do") && loginId == null) { // 게시판작업 하고 싶은데 && 목록은 아니고 && 로그인 정보 없다면.
+            request.setAttribute("msg", "로그인 정보가 필요합니다.");
+            request.setAttribute("path", request.getContextPath() + "/member/loginForm.do");
+            request.getRequestDispatcher("/WEB-INF/views/alert.jsp").forward(request, response);
+            return;
+        }
+
         try {
             MyController controller = controllerMapping.getController(url); // 애한테 물어보면 컨트롤러 객체중 하나 준다.
 

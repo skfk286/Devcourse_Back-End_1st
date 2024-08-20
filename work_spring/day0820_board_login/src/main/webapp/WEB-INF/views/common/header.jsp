@@ -16,7 +16,7 @@
 <%
     } else {
 %>
-<a href="<%=request.getContextPath()%>/login.do">[로그인 하러 가기]</a>
-<a href="#">[회원가입]</a>
+<a href="<%=request.getContextPath()%>/member/loginForm.do">[로그인 하러 가기]</a>
+<a href="<%=request.getContextPath()%>/member/joinForm.do">[회원가입]</a>
 <% } %>
 <hr>

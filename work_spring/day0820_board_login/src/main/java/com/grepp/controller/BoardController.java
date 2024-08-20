@@ -20,8 +20,11 @@ public class BoardController implements MyController {
         } else if("/board/list.do".equals(url)) {
             List<BoardDTO> boardList = service.getBoard();
             req.setAttribute("bList", boardList);
-
             return new MyPageInfo(true, "/list");
+        } else if("/board/read.do".equals(url)) {
+            int no = Integer.parseInt(req.getParameter("no"));
+            req.setAttribute("bbb", service.read(no));
+            return new MyPageInfo(true, "/view");
         }
 
         return null;
