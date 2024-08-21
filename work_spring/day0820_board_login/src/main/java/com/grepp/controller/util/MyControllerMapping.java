@@ -11,6 +11,7 @@ public class MyControllerMapping {
     private MainController mainController = new MainController();
 
     public MyController getController(String command) {
+        System.out.println("command : " + command);
         if(command.startsWith("/member"))
             return memberController;
         else if(command.startsWith("/board"))
