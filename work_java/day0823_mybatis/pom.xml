@@ -12,20 +12,19 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
-        <junit.version>5.10.0</junit.version>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <junit.version>5.11.0-M2</junit.version>
 
         <!-- 버전관리 -->
         <org.springframework-version>6.1.8</org.springframework-version>
         <org.aspectj-version>1.9.9.1</org.aspectj-version>
         <log4j-version>1.2.17</log4j-version>
         <org.slf4j-version>1.7.36</org.slf4j-version>
-        <jackson-databind-version>2.13.5</jackson-databind-version>
 
-        <mysql-connector-java-version>8.0.31</mysql-connector-java-version>
+        <mysql-connector-java-version>8.3.0</mysql-connector-java-version>
         <mybatis-version>3.5.9</mybatis-version>
-        <mybatis-spring-version>2.0.7</mybatis-spring-version>
+        <mybatis-spring-version>3.0.3</mybatis-spring-version>
         <commons-dbcp2-version>2.9.0</commons-dbcp2-version>
 
         <jackson-databind-version>2.15.2</jackson-databind-version>
@@ -34,8 +33,6 @@
     </properties>
 
     <dependencies>
-
-        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -44,6 +41,13 @@
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis-version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -51,20 +55,18 @@
             <version>${mybatis-spring-version}</version>
         </dependency>
 
+
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
-            <scope>provided</scope>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>${mysql-connector-java-version}</version>
         </dependency>
 
-        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -84,16 +86,22 @@
             <version>${org.springframework-version}</version>
         </dependency>
 
+        <!-- AspectJ :: AOP -->
         <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>8.0.33</version>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${org.aspectj-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${org.aspectj-version}</version>
         </dependency>
 
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
+            <version>6.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
