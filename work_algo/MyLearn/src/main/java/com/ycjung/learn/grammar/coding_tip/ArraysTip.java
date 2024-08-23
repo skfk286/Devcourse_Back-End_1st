@@ -1,4 +1,4 @@
-package com.ycjung.learn.algorithm.coding_tip;
+package com.ycjung.learn.grammar.coding_tip;
 
 import java.util.Arrays;
 import java.util.Collections;
