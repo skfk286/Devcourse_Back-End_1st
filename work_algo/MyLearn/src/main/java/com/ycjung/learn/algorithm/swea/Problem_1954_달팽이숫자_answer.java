@@ -1,8 +1,8 @@
-package com.ycjung.learn.algorithm.day0809_탐색;
+package com.ycjung.learn.algorithm.swea;
 
 import java.util.Scanner;
 
-public class Solution_1954_달팽이숫자_answer {
+public class Problem_1954_달팽이숫자_answer {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
