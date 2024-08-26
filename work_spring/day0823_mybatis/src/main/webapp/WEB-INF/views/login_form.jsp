@@ -20,7 +20,7 @@
         </tr>
         <tr>
             <td>PW : </td>
-            <td><input type="text" name="userpw"/></td>
+            <td><input type="password" name="userpw"/></td>
         </tr>
         <tr>
             <td colspan="2">

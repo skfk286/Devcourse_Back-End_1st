@@ -37,7 +37,7 @@ public class MemberController {
             mav.addObject("path", request.getContextPath() + "/main.do");
         } else {
             mav.addObject("msg", "Login Failed!");
-            mav.addObject("path", request.getContextPath() + "/member/login.do");
+            mav.addObject("path", request.getContextPath() + "/member/loginForm.do");
         }
 
         return mav;
