@@ -86,7 +86,7 @@ public class BoardController {
     private List<FileDTO> saveFiles(MultipartFile[] uploadFile) throws IOException {
         List<FileDTO> fileDTOList = new ArrayList<>();
         if (uploadFile != null && uploadFile.length > 0) { // 첨부된 파일이 확실히 있는 경우 저장절차 진행
-            String uploadPath = "D:/Dev/IntelliJ_workspace/99. programmers_upload/";
+            String uploadPath = "C:/programmers_upload/";
             if (new File(uploadPath).exists() == false) {
                 new File(uploadPath).mkdir();
             }
