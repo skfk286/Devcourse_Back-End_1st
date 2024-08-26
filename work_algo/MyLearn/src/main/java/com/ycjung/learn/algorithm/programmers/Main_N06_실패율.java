@@ -61,6 +61,31 @@ public class Main_N06_실패율 {
         return answer;
     }
 
+    public static Object[] solution_replay(int N, int[] stages) {
+        int[] challenger = new int[N + 2];
+
+        for(int i=0; i<stages.length; i++) {
+            challenger[stages[i]] += 1;
+        }
+
+        HashMap<Integer, Double> fail = new HashMap<>();
+        int length = stages.length;
+
+        for(int i=1; i<=N; i++) {
+            if(challenger[i] == 0) {
+                fail.put(i, 0.0);
+            } else {
+                fail.put(i, (double)challenger[i] / length);
+                length -= challenger[i];
+            }
+        }
+
+        return fail.entrySet().stream()
+                .sorted((o1, o2) -> Double.compare(o2.getValue(), o1.getValue()))
+                .map(Map.Entry::getKey)
+                .toArray();
+    }
+
     public static int[] solution2(int N, int[] stages) {
         int[] challenger = new int[N + 2];
 
@@ -87,7 +112,7 @@ public class Main_N06_실패율 {
     }
 
     public static void main(String[] args) {
-        int[] arr = solution(5, new int[]{2,1,2,6,2,4,3,3}); // result : [3,4,2,1,5]
+        int[] arr = solution_replay(5, new int[]{2,1,2,6,2,4,3,3}); // result : [3,4,2,1,5]
         // int[] arr = solution(4, new int[]{4,4,4,4,4}); // result : [4,1,2,3]
         //int[] arr = solution(5, new int[]{1,1,1,2,3,4}); // result : [4, 1, 3, 2, 5] -> Nan 처리 이슈.
 
