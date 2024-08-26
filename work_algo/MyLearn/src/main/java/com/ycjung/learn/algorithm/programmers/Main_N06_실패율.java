@@ -117,6 +117,6 @@ public class Main_N06_실패율 {
         //int[] arr = solution(5, new int[]{1,1,1,2,3,4}); // result : [4, 1, 3, 2, 5] -> Nan 처리 이슈.
 
 
-        System.out.println(Arrays.toString(arr));
+        //System.out.println(Arrays.toString(arr));
     }
 }
