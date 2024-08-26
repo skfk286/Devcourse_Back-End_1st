@@ -11,7 +11,7 @@
     if(loginId != null) {
 
 %>
-    <%=loginId%>님 로그인 중이시네요. 환영합니다.
+    <%=loginId%>님 로그인 중이시네요. 환영합니다.<br>
     <a href="<%=request.getContextPath()%>/member/logout.do">[로그아웃]</a>
 <%
     } else {
