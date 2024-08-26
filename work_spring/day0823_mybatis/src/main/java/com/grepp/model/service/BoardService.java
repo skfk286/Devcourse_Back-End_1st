@@ -1,7 +1,9 @@
 package com.grepp.model.service;
 
 import com.grepp.model.dto.BoardDTO;
+import com.grepp.model.dto.FileDTO;
 import com.grepp.model.repository.BoardRepository;
+import com.grepp.model.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class BoardService {
 
     @Autowired
     private BoardRepository repo;
+
+    @Autowired
+    private FileRepository fileRepo;
 
     // 글 읽기를 수행할 때 작성자와 읽는 사용자가 일치하는지 검사해서 조회수 증가 update 여부를 판단하거나,
     // 이미 이 글을 읽는 사용자는 조회수가 중복해서 증가하지 않도록 검사하거나
@@ -51,13 +56,13 @@ public class BoardService {
         int totalCount = repo.selectCount(); // 총 개시글의 갯수 (ex : 27)
         int totalPageCount = totalCount / COUNT_PER_PAGE; // ex : 27/10 = 2.7 = 2page 일단 필요하고
 
-        if(totalCount % COUNT_PER_PAGE > 0) { // 10개씩 2페이지 하고 7개의 글이 남은 상태라 페이지 하나 늘려주기.
+        if (totalCount % COUNT_PER_PAGE > 0) { // 10개씩 2페이지 하고 7개의 글이 남은 상태라 페이지 하나 늘려주기.
             totalPageCount++;
         }
 
         int startPage = (page - 1) / 10 * 10 + 1; // 현재 페이지가 11, 12, 13, ..., 20 이었을 때 10~19로 바꾸고, /10*10 하면 11, 12, ..., 19으로 동일함
         int endPage = startPage + 9;
-        if(totalPageCount < endPage) { // 21 ~ 30 이라고 계산했는데 총 페이지수가 28밖에 없었다 ?
+        if (totalPageCount < endPage) { // 21 ~ 30 이라고 계산했는데 총 페이지수가 28밖에 없었다 ?
             endPage = totalPageCount; // 마지막 페이지 링크를 총 페이지 수로 줄여준다.
         }
 
@@ -73,5 +78,16 @@ public class BoardService {
         resultData.put("bList", boardList);
 
         return resultData;
+    }
+
+    // 작성된 글 하나에 파일이 여러개 첨부될 수 있다.
+    public int saveFileInfos(List<FileDTO> fileDTOList, int bno) throws SQLException {
+        if (fileDTOList == null || fileDTOList.isEmpty()) return 0;
+
+        for (FileDTO file : fileDTOList) { // 파일 이름 originalName, 저장된 경로 savedPath 만 설정되어 있으니깐 게시글 번호 붙여서 insert 시켜야 된다.
+            file.setBno(bno);
+        }
+
+        return fileRepo.insertFiles(fileDTOList);
     }
 }

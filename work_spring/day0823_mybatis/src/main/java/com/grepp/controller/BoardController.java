@@ -58,7 +58,7 @@ public class BoardController {
         ModelAndView mav = new ModelAndView("alert");
 
         board.setWriter((String) request.getSession().getAttribute("loginId"));
-        int result = boardService.write(board);
+        int result = boardService.write(board); // 첨부파일 저장 이전에 일단 게시글 부터 작성완료 되어야 한다.
 
         System.out.println("글 작성 결과 : " + result);
         System.out.println("방금 작성한 글 : " + board);
@@ -66,6 +66,7 @@ public class BoardController {
         try {
             List<FileDTO> savedFiles = saveFiles(uploadFile);
             System.out.println("파일 저장 완료 : " + savedFiles);
+            System.out.println("파일 정보 디비에 기록 완료 : " + boardService.saveFileInfos(savedFiles, board.getNo()));
         } catch (IOException ex) {
             System.out.println("파일 저장 실패");
             ex.printStackTrace();
