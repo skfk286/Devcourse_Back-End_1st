@@ -16,4 +16,15 @@
           FROM BOARD_TB
          WHERE NO = #{no}
     </select>
+
+    <select id="selectList" resultType="com.grepp.model.dto.BoardDTO">
+        SELECT NO, TITLE, WRITER, CONTENT, READ_COUNT, REG_DATE
+          FROM BOARD_TB
+      ORDER BY REG_DATE DESC
+        LIMIT #{sr}, #{cnt}
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM BOARD_TB
+    </select>
 </mapper>

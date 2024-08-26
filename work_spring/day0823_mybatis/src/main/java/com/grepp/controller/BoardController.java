@@ -21,12 +21,13 @@ public class BoardController {
     private BoardService boardService;
 
     @RequestMapping("/list.do") // 리스트
-    public String list(Model model) throws SQLException {
+    public ModelAndView list(@RequestParam(name = "page", defaultValue = "1") int page) throws SQLException {
         System.out.println("/list.do 호출 >");
 
-        model.addAttribute("bList", boardService.getBoard());
+        ModelAndView mav = new ModelAndView("list");
+        mav.addObject("pageData", boardService.getBoards(page));
 
-        return "list";
+        return mav;
     }
 
     // writeForm.do

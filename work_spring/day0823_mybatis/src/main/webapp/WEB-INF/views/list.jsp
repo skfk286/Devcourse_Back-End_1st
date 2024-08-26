@@ -1,5 +1,6 @@
 <%@ page import="com.grepp.model.dto.BoardDTO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%--
   Created by IntelliJ IDEA.
   User: ycjung
@@ -24,7 +25,10 @@
         <th>내용</th>
     </tr>
     <%
-        List<BoardDTO> bList = (List<BoardDTO>) request.getAttribute("bList");
+        // List<BoardDTO> bList = (List<BoardDTO>) request.getAttribute("bList");
+        Map<String, Object> pageData = (Map<String, Object>) request.getAttribute("pageData");
+        List<BoardDTO> bList = (List<BoardDTO>) pageData.get("bList");
+
         for(BoardDTO b: bList){
     %>
     <tr>
@@ -38,6 +42,9 @@
     <%
         }
     %>
+    <tr>
+        <td colspan="5">페이지가 나타날 영역</td>
+    </tr>
 </table>
 <a href="<%=request.getContextPath()%>/main.do">[메인화면으로]</a>
 </body>

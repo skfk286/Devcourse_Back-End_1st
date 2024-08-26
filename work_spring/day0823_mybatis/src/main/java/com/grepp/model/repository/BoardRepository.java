@@ -2,6 +2,7 @@ package com.grepp.model.repository;
 
 
 import com.grepp.model.dto.BoardDTO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -13,6 +14,8 @@ public interface BoardRepository {
 //    int update(BoardDTO board, String category) throws SQLException;
 //    int update(BoardDTO board) throws SQLException;
 //    int delete(BoardDTO board) throws SQLException;
+    List<BoardDTO> selectList(@Param("sr") int startRow, @Param("cnt") int count);
+    Integer selectCount();
     List<BoardDTO> selectAll() throws SQLException;
     BoardDTO selectOne(int id) throws SQLException;
 }
