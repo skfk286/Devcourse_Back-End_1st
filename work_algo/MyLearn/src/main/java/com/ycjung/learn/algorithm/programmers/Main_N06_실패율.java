@@ -112,7 +112,7 @@ public class Main_N06_실패율 {
     }
 
     public static void main(String[] args) {
-        int[] arr = solution_replay(5, new int[]{2,1,2,6,2,4,3,3}); // result : [3,4,2,1,5]
+        //int[] arr = solution_replay(5, new int[]{2,1,2,6,2,4,3,3}); // result : [3,4,2,1,5]
         // int[] arr = solution(4, new int[]{4,4,4,4,4}); // result : [4,1,2,3]
         //int[] arr = solution(5, new int[]{1,1,1,2,3,4}); // result : [4, 1, 3, 2, 5] -> Nan 처리 이슈.
 
