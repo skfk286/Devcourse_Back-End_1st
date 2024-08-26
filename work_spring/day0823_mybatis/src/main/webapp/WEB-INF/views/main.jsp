@@ -8,15 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>글 작성화면</title>
+    <title>메인화면</title>
 </head>
 <body>
 <%@ include file="common/header.jsp"%>
-<br>
-<form action="<%=request.getContextPath()%>/board/write.do">
-    제목 : <input type="text" name="title"><br>
-    내용 : <textarea name="content"></textarea><br>
-    <input type="submit" value="작성완료">
-</form>
+<h2>백앤드 데브코스 MVC 게시판에 오신걸 환영합니다.</h2>
+<a href="<%=request.getContextPath()%>/board/writeForm.do">[글쓰기 하러가기]</a>
+<a href="<%=request.getContextPath()%>/board/list.do">[게시판 목록으로]</a>
 </body>
 </html>

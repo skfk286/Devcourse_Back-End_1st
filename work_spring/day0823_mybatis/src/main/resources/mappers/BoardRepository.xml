@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grepp.model.repository.BoardRepository">
+    <insert id="insert" parameterType="com.grepp.model.dto.BoardDTO">
+        INSERT INTO BOARD_TB(TITLE,WRITER,CONTENT,REG_DATE)
+        VALUES(#{title}, #{writer},#{content},NOW())
+    </insert>
+
+    <select id="selectAll" resultType="com.grepp.model.dto.BoardDTO">
+        SELECT NO, TITLE, WRITER, CONTENT, READ_COUNT, REG_DATE
+          FROM BOARD_TB
+    </select>
+
+    <select id="selectOne" resultType="com.grepp.model.dto.BoardDTO">
+        SELECT NO, TITLE, WRITER, CONTENT, READ_COUNT, REG_DATE
+          FROM BOARD_TB
+         WHERE NO = #{no}
+    </select>
+
+    <select id="selectList" resultType="com.grepp.model.dto.BoardDTO">
+        SELECT NO, TITLE, WRITER, CONTENT, READ_COUNT, REG_DATE
+          FROM BOARD_TB
+      ORDER BY REG_DATE DESC
+        LIMIT #{sr}, #{cnt}
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM BOARD_TB
+    </select>
+</mapper>
