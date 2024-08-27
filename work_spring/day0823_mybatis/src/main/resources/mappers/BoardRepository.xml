@@ -42,6 +42,8 @@
         <result property="content" column="content"/>
         <result property="readCount" column="READ_COUNT"/>
         <result property="regDate" column="REG_DATE"/>
+        <!-- 아래 SQL 코드는 첨부파일에 대한 매핑 처리 진행. -->
+        <!-- JOIN 쿼리를 진행하면 중복되는 특정 테이블 데이터가 존재함으로.. -->
         <collection property="fileDTOList" ofType="com.grepp.model.dto.FileDTO">
             <result column="SAVED_PATH" property="savedPath"/>
             <result column="ORIGINAL_NAME" property="originalName"/>
