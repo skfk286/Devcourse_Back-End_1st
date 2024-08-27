@@ -49,7 +49,7 @@
         }
     %>
     <tr>
-        <td colspan="5">
+        <td colspan="6">
             <%
                 int nowPage = (int) pageData.get("page");
                 int startPage = (int) pageData.get("startPage");

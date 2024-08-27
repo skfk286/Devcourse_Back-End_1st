@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grepp.model.repository.BoardRepository">
+
     <insert id="insert" parameterType="com.grepp.model.dto.BoardDTO" useGeneratedKeys="true" keyColumn="no" keyProperty="no">
         INSERT INTO BOARD_TB(TITLE,WRITER,CONTENT,REG_DATE)
         VALUES(#{title}, #{writer},#{content},NOW())
     </insert>
 
-    <select id="selectAll" resultType="com.grepp.model.dto.BoardDTO">
+    <select id="selectAll" resultMap="rrr">
         SELECT NO, TITLE, WRITER, CONTENT, READ_COUNT, REG_DATE
           FROM BOARD_TB
     </select>
 
-    <select id="selectOne" resultType="com.grepp.model.dto.BoardDTO">
+    <select id="selectOne" parameterType="int" resultMap="rrr">
+    <!--
         SELECT NO, TITLE, WRITER, CONTENT, READ_COUNT, REG_DATE
           FROM BOARD_TB
          WHERE NO = #{no}
+         -->
+        SELECT B.NO, B.TITLE, B.WRITER, B.CONTENT, B.READ_COUNT, B.REG_DATE, F.FNO, F.ORIGINAL_NAME, F.SAVED_PATH
+        FROM BOARD_TB B JOIN FILE_TB F
+        ON B.NO = F.BNO
+        WHERE B.NO = #{no}
     </select>
 
-    <select id="selectList" resultType="com.grepp.model.dto.BoardDTO">
+    <select id="selectList" resultMap="rrr">
         SELECT NO, TITLE, WRITER, CONTENT, READ_COUNT, REG_DATE
           FROM BOARD_TB
       ORDER BY REG_DATE DESC
@@ -27,4 +34,17 @@
     <select id="selectCount" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM BOARD_TB
     </select>
+
+    <resultMap id="rrr" type="com.grepp.model.dto.BoardDTO">
+        <result property="no" column="no"/>
+        <result property="title" column="title"/>
+        <result property="writer" column="writer"/>
+        <result property="content" column="content"/>
+        <result property="readCount" column="READ_COUNT"/>
+        <result property="regDate" column="REG_DATE"/>
+        <collection property="fileDTOList" ofType="com.grepp.model.dto.FileDTO">
+            <result column="SAVED_PATH" property="savedPath"/>
+            <result column="ORIGINAL_NAME" property="originalName"/>
+        </collection>
+    </resultMap>
 </mapper>
