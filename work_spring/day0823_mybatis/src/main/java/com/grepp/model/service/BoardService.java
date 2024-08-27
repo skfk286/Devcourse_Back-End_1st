@@ -35,7 +35,10 @@ public class BoardService {
 
     // 위에처럼 로직을 수행하는 메소드. 지금은 처리하지 않았음.
     public BoardDTO read(int bno) throws SQLException {
-        return repo.selectOne(bno);
+        /* TODO : 아래와 같이 하면 2번의 커넥션 연결이 필요하다 : join 쿼리로 변경하는 부분 확인. */
+        BoardDTO boardDTO = repo.selectOne(bno); // board_tb 에서 조회
+        boardDTO.setFileDTOList(fileRepo.selectFiles(bno)); // file_tb 에서 조회
+        return boardDTO;
     }
 
     public int write(BoardDTO board) throws SQLException {
@@ -89,5 +92,10 @@ public class BoardService {
         }
 
         return fileRepo.insertFiles(fileDTOList);
+    }
+
+    public FileDTO getFileInfo(int fno) {
+        // file 다운로드 카운트를 update 한다던지 부가작업이 필요하면 여기서 진행.
+        return fileRepo.selectFile(fno);
     }
 }

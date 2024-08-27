@@ -27,6 +27,6 @@
     <select id="selectFile" resultType="com.grepp.model.dto.FileDTO">
         SELECT BNO as 'bno', FNO as 'fno', ORIGINAL_NAME as 'originalName', SAVED_PATH as 'savedPath'
         FROM FILE_TB
-        WHERE BNO = #{fno}
+        WHERE FNO = #{fno}
     </select>
 </mapper>

@@ -4,9 +4,12 @@ import com.grepp.model.dto.BoardDTO;
 import com.grepp.model.dto.FileDTO;
 import com.grepp.model.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -14,9 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.IOError;
-import java.io.IOException;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,5 +120,22 @@ public class BoardController {
         mav.addObject("bbb", boardService.read(no));
 
         return mav;
+    }
+
+    @GetMapping("/download.do")
+    public void download(@RequestParam("fno") int fno, HttpServletResponse response) throws IOException {
+        FileDTO fileDTO = boardService.getFileInfo(fno); // originalFile, savedPath 정보 조회.
+
+        // response 는 기본적으로 html 을 응답하는 헤더가 설정되어 있다.
+        // 하지만, 지금은 html 을 응답하는게 아니라 파일 그 자체를 전송할거다.
+        String fileName = new String(fileDTO.getOriginalName().getBytes("UTF-8"), "iso-8859-1");
+
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\""); // filename = "right.png"
+        response.setHeader("Content-Transfer-Encoding", "binary");
+
+        FileInputStream fis = new FileInputStream(fileDTO.getSavedPath());
+        OutputStream os = response.getOutputStream(); // response 로 응답하는 스트림(문자열 단위 아니고 바이트 단위로 보내게 된다. / 문자열보단 더 작게)
+
+        FileCopyUtils.copy(fis, os); // fis -> os 으로 반복 복사 작업 진행, Spring Utility 클래스 - FileCopyUtils 활용
     }
 }
