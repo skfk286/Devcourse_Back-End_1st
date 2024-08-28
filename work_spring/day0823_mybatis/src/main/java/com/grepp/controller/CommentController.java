@@ -3,10 +3,15 @@ package com.grepp.controller;
 import com.grepp.model.dto.CommentDTO;
 import com.grepp.model.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -35,4 +40,15 @@ public class CommentController {
 
         return boardService.getComments(bno);
     }
+
+//    @GetMapping("/list.do/{bbb}") // 아래와 같이 ResponseEntity 를 설정할 수 있다.
+//    @ResponseBody
+//    public ResponseEntity<?> list(@PathVariable("bbb") int bno) throws SQLException {
+//        System.out.println("/comment/list.do 호출 >");
+//
+//        HttpHeaders header = new HttpHeaders();
+//        header.setContentType(new MediaType("application", "text", Charset.forName("UTF-8")));
+//        //return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); // 클라이언트에게 하고 싶은 서버의 응답 정보.
+//        return ResponseEntity.ok().headers(header).body(boardService.getComments(bno).toString());
+//    }
 }
