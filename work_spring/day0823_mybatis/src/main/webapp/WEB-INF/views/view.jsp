@@ -66,8 +66,43 @@
         }
     %>
 </table>
+
 <a href="#">[수정하기]</a>
 <a href="<%=request.getContextPath()%>/board/list.do">[게시판 목록으로]</a>
+<div id="divComment">
+    <table border="1">
+        <tr><td>작성된 댓글이 없습니다.</td></tr>
+    </table>
+    작성자 : <input type="text" id="uuu"/><br>
+    댓글 :   <input type="text" id="ttt"/><br>
+    <button id="btnSend">댓글등록</button>
+    <button id="btnReceive">댓글 얻어오기</button>
+</div>
+<script>
+    // 댓글 가져오기 버튼 실행.
+    document.getElementById('btnReceive').onclick = async function () {
+        // let url = '<%=request.getContextPath()%>/comment/list.do?bno=<%=bbb.getNo()%>'
+        let url = '<%=request.getContextPath()%>/comment/list.do/<%=bbb.getNo()%>' // @PathVariable 방식.
 
+        let resp = await fetch(url);
+        console.log(resp);
+    }
+
+    // 댓글 등록 버튼 실행.
+    document.getElementById('btnSend').onclick = async function () { // 비동기 함수
+        let uuu = document.getElementById('uuu').value;
+        let ttt = document.getElementById('ttt').value;
+
+        alert("작성자: " + uuu + ", 내용: " + ttt + " 라는 내용을 백엔드 서버에 전송해주세요.")
+        let url = '<%=request.getContextPath()%>/comment/write.do?cwriter=' + uuu + '&ccontent=' + ttt + '&bno=' + <%=bbb.getNo()%>;
+
+        // fetch 를 실행하면 백엔드에게 데이터를 보내고 response 를 아직 안받았어도 아래 문장으로 내려가준다.
+        let resp = await fetch(url);
+        // 응답 response 객체에서 유용한 데이터를 뽑아내는 과정도 시간이 걸릴 수 있으니 기다렸다가 아래 문장을 실행한다.
+        let respData = await resp.text();
+
+        alert('백엔드 응답! : ' + respData)
+    }
+</script>
 </body>
 </html>

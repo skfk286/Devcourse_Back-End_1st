@@ -1,8 +1,10 @@
 package com.grepp.model.service;
 
 import com.grepp.model.dto.BoardDTO;
+import com.grepp.model.dto.CommentDTO;
 import com.grepp.model.dto.FileDTO;
 import com.grepp.model.repository.BoardRepository;
+import com.grepp.model.repository.CommentRepository;
 import com.grepp.model.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class BoardService {
 
     @Autowired
     private FileRepository fileRepo;
+
+    @Autowired
+    private CommentRepository cntRepo;
 
     // 글 읽기를 수행할 때 작성자와 읽는 사용자가 일치하는지 검사해서 조회수 증가 update 여부를 판단하거나,
     // 이미 이 글을 읽는 사용자는 조회수가 중복해서 증가하지 않도록 검사하거나
@@ -97,5 +102,13 @@ public class BoardService {
     public FileDTO getFileInfo(int fno) {
         // file 다운로드 카운트를 update 한다던지 부가작업이 필요하면 여기서 진행.
         return fileRepo.selectFile(fno);
+    }
+
+    public void writeComment(CommentDTO commentDTO) {
+        cntRepo.insert(commentDTO);
+    }
+
+    public List<CommentDTO> getComments(int bno) throws SQLException {
+        return cntRepo.selectList(bno);
     }
 }
