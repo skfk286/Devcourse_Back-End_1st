@@ -11,7 +11,7 @@
 
     <bean id = "ddd" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://121.88.130.214/workshop"/>
+        <property name="url" value="jdbc:mysql://121.88.130.215/workshop"/>
         <property name="username" value="devcourse"/>
         <property name="password" value="1234"/>
     </bean>
