@@ -4,16 +4,15 @@ import com.grepp.boot.model.dto.CommentDTO;
 import com.grepp.boot.model.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/comment")
+// @CrossOrigin("*") // 다른 화면에서 Data 를 요청하는 경우 (외부 서버에 데이터를 얻으려는 행동 허가)
+@CrossOrigin(origins = "http://localhost:8080")
 public class CommentController {
 
     @Autowired
