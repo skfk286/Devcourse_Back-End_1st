@@ -81,8 +81,8 @@
 <script>
     async function getComments() {
         // let url = '<%=request.getContextPath()%>/comment/list.do?bno=<%=bbb.getNo()%>'
-        // let url = '<%=request.getContextPath()%>/comment/list.do/<%=bbb.getNo()%>' // @PathVariable 방식.
-        let url = 'http://localhost:8888/comment/list.do/<%=bbb.getNo()%>' // CORS
+        let url = '<%=request.getContextPath()%>/comment/list.do/<%=bbb.getNo()%>' // @PathVariable 방식.
+        // let url = 'http://localhost:8888/comment/list.do/<%=bbb.getNo()%>' // CORS
 
         let resp = await fetch(url);
         let result = await resp.json(); // response 헤더에 Content-type 이 application/json 으로 되어 있었을 떄 json 함수로 파싱해서 받을 수 있다.
