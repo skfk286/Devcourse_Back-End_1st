@@ -21,12 +21,12 @@ public class NaverController {
     private static final String NAVER_CLIENT_ID = "zbP7TbmUMglThce0HijF";
     private static final String NAVER_CLIENT_SECRET = "TcZ8jym57B";
 
-    @GetMapping(value = "/shop", produces = "text/json;charset=UTF-8")
+    @GetMapping(value = "/shop", produces = MediaType.APPLICATION_JSON_VALUE)
     public String shop(@RequestParam("keyword") String keyword) {
         return process("shop", keyword);
     }
 
-    @GetMapping(value = "/blog", produces = "text/json;charset=UTF-8")
+    @GetMapping(value = "/blog", produces = MediaType.APPLICATION_JSON_VALUE)
     public String blog(@RequestParam("keyword") String keyword) {
         return process("blog", keyword);
     }
@@ -38,7 +38,6 @@ public class NaverController {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
-
 
         // String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + text;    // JSON 결과
         String apiURL = "https://openapi.naver.com/v1/search/"+url+"?query="+ text; // XML 결과
@@ -92,16 +91,13 @@ public class NaverController {
     private static String readBody(InputStream body){
         InputStreamReader streamReader = new InputStreamReader(body);
 
-
         try (BufferedReader lineReader = new BufferedReader(streamReader)) {
             StringBuilder responseBody = new StringBuilder();
-
 
             String line;
             while ((line = lineReader.readLine()) != null) {
                 responseBody.append(line);
             }
-
 
             return responseBody.toString();
         } catch (IOException e) {
