@@ -1,4 +1,4 @@
-package com.ycjung.jpa.model.dto;
+package com.grepp.jpa.model.dto;
 
 public class FileDTO {
     private int fno;

@@ -1,4 +1,4 @@
-package com.ycjung.jpa;
+package com.grepp.jpa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
