@@ -9,6 +9,7 @@ import com.grepp.boot.jwt.Jwt;
 import com.grepp.boot.jwt.JwtTokenConstants;
 import com.grepp.boot.jwt.JwtTokenVerifier;
 import com.grepp.boot.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

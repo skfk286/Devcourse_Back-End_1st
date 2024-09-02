@@ -21,15 +21,32 @@ public class LoginInterceptor implements HandlerInterceptor {
         System.out.println("JWT 토큰 인증 인터셉터 동작!");
 
         // 쿠키에서 accessToken 추출
+        Cookie accessCookie = null;
         String accessToken = null;
+        String refreshToken = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("accessToken".equals(cookie.getName())) {
+                    accessCookie = cookie;
                     accessToken = cookie.getValue();
-                    break;
+                } else if("refreshToken".equals(cookie.getName())) {
+                    refreshToken = cookie.getValue();
                 }
             }
+        }
+
+        if (refreshToken == null) {
+            System.out.println("RefreshToken 쿠키가 존재하지 않습니다.");
+            response.sendRedirect(request.getContextPath() + "/member/loginForm.do");
+            if(accessCookie != null) {
+                System.out.println("AccessToken 쿠키가 남아있어 삭제합니다.");
+                accessCookie.setValue("");
+                accessCookie.setPath("/");
+                accessCookie.setMaxAge(0);
+                response.addCookie(accessCookie);
+            }
+            return false;
         }
 
         if (accessToken == null) {
