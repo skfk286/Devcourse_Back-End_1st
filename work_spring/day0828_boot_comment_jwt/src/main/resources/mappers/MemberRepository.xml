@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grepp.boot.model.repository.MemberRepository">
+
+    <select id="selectOne" resultMap="mmm">
+        SELECT USER_ID, USER_NICKNAME FROM MEMBER_TB WHERE USER_ID=#{userid} AND USER_PW=#{userpw}
+    </select>
+
+    <resultMap id="mmm" type="com.grepp.boot.model.dto.MemberDTO">
+        <result property="userid" column="USER_ID"/>
+        <result property="usernickname" column="USER_NICKNAME"/>
+    </resultMap>
+</mapper>
