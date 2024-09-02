@@ -74,7 +74,7 @@
 <%=nickname%>님 로그인 중이시네요. 환영합니다.<br>
 <a href="<%=request.getContextPath()%>/member/logout.do">[로그아웃]</a>
 <p>엑세스 토큰 만료 시간: <span id="accessTokenExpiryTimer"></span>
-    <button onclick="extendAccessToken()">30초 연장</button>
+    <button onclick="extendAccessToken()">갱신</button>
 </p>
 <p>리프레시 토큰 만료 시간: <span id="refreshTokenExpiryTimer"></span></p>
 <script>
@@ -108,8 +108,28 @@
     }
 
     function extendAccessToken() {
-        accessExpiryTime += 30000; // 30초 연장 (30,000 밀리초)
-        updateTimer('accessTokenExpiryTimer', accessExpiryTime); // 타이머 업데이트
+        // fetch API를 사용하여 서버에서 토큰 연장
+        fetch("<%=request.getContextPath()%>/member/extendAccessToken", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            credentials: 'same-origin' // 쿠키를 포함하도록 설정
+        })
+            .then(response => {
+                if (response.ok) {
+                    // 응답 상태 코드가 200 OK인 경우 페이지를 새로고침
+                    alert("엑세스 토큰이 연장되었습니다.");
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    // 응답 상태 코드가 200이 아닌 경우 오류 메시지 표시
+                    throw new Error('엑세스 토큰 연장에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
     }
 
     updateTimer('accessTokenExpiryTimer', accessExpiryTime); // 엑세스 토큰 타이머 업데이트

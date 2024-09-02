@@ -1,5 +1,6 @@
 package com.grepp.boot.controller;
 
+import com.grepp.boot.jwt.InvalidJwtTokenException;
 import com.grepp.boot.jwt.Jwt;
 import com.grepp.boot.model.dto.MemberDTO;
 import com.grepp.boot.model.service.JwtTokenService;
@@ -9,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -119,7 +122,8 @@ public class MemberController {
     }
 
     @PostMapping("/extendAccessToken")
-    public void extendAccessToken(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Void> extendAccessToken(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("Access Token 갱신 요청받음");
         String refreshToken = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -131,6 +135,28 @@ public class MemberController {
             }
         }
 
-        /* TODO : 아래코드에서 리프레쉬 토큰이 유효 하면 accessToken 을 재 설정해야 될 것 같음. */
+        if (refreshToken != null) {
+            try {
+                // Refresh token validation and new access token generation
+                Jwt newJwt = jwtTokenService.refreshAccessToken(refreshToken);
+
+                // Update the accessToken cookie with the new token
+                Cookie newAccessTokenCookie = new Cookie("accessToken", newJwt.getAccessToken());
+                newAccessTokenCookie.setHttpOnly(true); // Make it HTTP-only
+                newAccessTokenCookie.setSecure(false);  // Adjust this based on your environment (true if HTTPS)
+                newAccessTokenCookie.setPath("/");
+                newAccessTokenCookie.setMaxAge((int) (newJwt.getAccessTokenExp().getTime() - System.currentTimeMillis()) / JwtTokenService.SESSION_TIMEOUT_UNIT); // Calculate max age in seconds
+
+                // Add the updated cookie to the response
+                response.addCookie(newAccessTokenCookie);
+
+                return ResponseEntity.ok().build(); // Return status 200 OK
+            } catch (InvalidJwtTokenException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Return status 401 Unauthorized if token is invalid
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // Return status 400 Bad Request if refreshToken is missing
+        }
     }
 }
