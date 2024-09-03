@@ -36,6 +36,7 @@ public class TodoService {
         return todoRepository.findById(original.getId());
     }
 
+    // 전송 여부 보다는 지금 내가 사용해야 하는 '데이터(재료) 가 멀쩡'한 지 체크하기
     private void validate(TodoEntity todoEntity) { // entity 유효한지 체크하기
         if(todoEntity == null)
             throw new RuntimeException("엔티티 null 이다.");
