@@ -28,7 +28,7 @@ public class MySecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable) // Basic 인증 환경이 아니고 jwt 토큰이니까 Basic 모드 비활성화
                 .sessionManagement(AbstractHttpConfigurer::disable) // sessionless 기반 아님으로 비활성화
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers("/auth/**").permitAll(); // 로그인 하러 오는 url 허용
+                    req.requestMatchers("/auth/**").permitAll(); // 로그인 하러 오는 url 은 허용
                     req.anyRequest().authenticated(); // 나머지는 다 인증되야 들어오게 할거다.
                 })
                 // .addFilter(ycjungFilter)
