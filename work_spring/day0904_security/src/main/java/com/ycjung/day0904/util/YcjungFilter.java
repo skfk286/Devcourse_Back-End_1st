@@ -24,11 +24,14 @@ import java.util.Map;
 import java.util.Objects;
 
 // Filter 는 Dispatcher Servlet 보다 먼저 실행 된다.
+/*
+    더 해볼만한 것(추가 과제!)
+    1. 사용자, 관리자 권한 설정
+    2. auth2 소셜 로그인 설정
+*/
 @Component
 public class YcjungFilter extends OncePerRequestFilter { // 리퀘스트 요청 한 번당 처리 필터 상속
 
-    @Autowired
-    private MyJwtTokenProvider jwtTokenProvider;
     @Autowired
     private MyJwtTokenProvider myJwtTokenProvider;
 
@@ -47,7 +50,7 @@ public class YcjungFilter extends OncePerRequestFilter { // 리퀘스트 요청 
                         null, // JWT 인증일 했기 때문에 넣지 않음.
                         AuthorityUtils.NO_AUTHORITIES // 로그인이 된 상태에서도 관리자, 일반 사용자 등의 권한이 달라질 수 있다. 여기서 설정
                 );
-                
+
                 // 토큰에다가 기본적인 인증정보 외에 더 부가적으로 담아놓고 싶은 내용이 있으면 아래 Detail 에서 더 담는 작업 수행 가능
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -55,9 +58,6 @@ public class YcjungFilter extends OncePerRequestFilter { // 리퀘스트 요청 
                 securityContext.setAuthentication(authenticationToken); // 컨텍스트에 토큰 담기
                 SecurityContextHolder.setContext(securityContext); // 홀더에 컨텍스트 고정
             }
-
-            filterChain.doFilter(request, response); // 때에 따라서는 아래 예외 발생시에도 나머지 필터를 더 진행해야될 수도 있음.
-
         } catch (Exception ex) {
             // 토큰이 유효하지 않아서 인증 불가 오류가 발생
             // DispatcherServlet 으로 안가야 되고, ResponseEntity 를 리턴하는 작업을 부탁할 수 없다. 그러므로 아래와 같은 작업으로..
@@ -74,6 +74,7 @@ public class YcjungFilter extends OncePerRequestFilter { // 리퀘스트 요청 
             mapper.writeValue(response.getOutputStream(), body);
 
         }
+        filterChain.doFilter(request, response); // 때에 따라서는 아래 예외 발생시에도 나머지 필터를 더 진행해야될 수도 있음.
     }
 
     // JWT 토큰을 활용하는 과정에서 토큰 형식이 아래처럼 진행되는 경우가 많음

@@ -36,7 +36,7 @@ public class UserController {
         UserEntity userEntity = userService.getByCredentials(userDTO.getUsername(), userDTO.getPassword());
 
         if(userEntity != null) {
-            String token = myJwtTokenProvider.createMyToken(userEntity, 1000 * 60); // ms 1000이 1초
+            String token = myJwtTokenProvider.createMyToken(userEntity, 1000 * 60 * 2); // ms 1000이 1초
             userDTO.setToken(token);
 
             return ResponseEntity.ok().body(userDTO); // Token 이 포함된 정보가 응답된다.
