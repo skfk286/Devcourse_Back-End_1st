@@ -1,10 +1,12 @@
 package com.ycjung.day0904.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -17,6 +19,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 // Filter 는 Dispatcher Servlet 보다 먼저 실행 된다.
 @Component
@@ -49,10 +54,24 @@ public class YcjungFilter extends OncePerRequestFilter { // 리퀘스트 요청 
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext(); // 비어있는 컨텍스트 생성
                 securityContext.setAuthentication(authenticationToken); // 컨텍스트에 토큰 담기
                 SecurityContextHolder.setContext(securityContext); // 홀더에 컨텍스트 고정
-
             }
 
+            filterChain.doFilter(request, response); // 때에 따라서는 아래 예외 발생시에도 나머지 필터를 더 진행해야될 수도 있음.
+
         } catch (Exception ex) {
+            // 토큰이 유효하지 않아서 인증 불가 오류가 발생
+            // DispatcherServlet 으로 안가야 되고, ResponseEntity 를 리턴하는 작업을 부탁할 수 없다. 그러므로 아래와 같은 작업으로..
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE); // response 는 기본 설정이 html 응답으로 되어 있으므로..
+
+            Map<String, Object> body = new HashMap<>(); // front 한테 인증 불가에 대한 에러 메세지를 응답하고 싶어서..
+            body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+            body.put("error", "Unauthorized 인증 불가");
+            body.put("message", ex.getMessage());
+            body.put("path", request.getServletPath());
+
+            ObjectMapper mapper = new ObjectMapper(); // 평소에 @RequestBody, @ResponseBody 처리하면서 자바 <-> json 작업할 때 쓰이던 라이브러리
+            mapper.writeValue(response.getOutputStream(), body);
 
         }
     }
