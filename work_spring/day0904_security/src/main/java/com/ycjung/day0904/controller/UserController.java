@@ -6,6 +6,7 @@ import com.ycjung.day0904.model.service.UserService;
 import com.ycjung.day0904.util.MyJwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +21,15 @@ public class UserController {
     @Autowired
     private MyJwtTokenProvider myJwtTokenProvider;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         if(userDTO == null || userDTO.getPassword() == null)
             throw new RuntimeException("Invalid Password!");
+
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         UserEntity userEntity = userDTO.toEntity();
         UserEntity result = userService.join(userEntity);
