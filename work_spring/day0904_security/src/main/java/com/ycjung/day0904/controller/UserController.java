@@ -6,6 +6,7 @@ import com.ycjung.day0904.model.service.UserService;
 import com.ycjung.day0904.util.MyJwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +21,15 @@ public class UserController {
     @Autowired
     private MyJwtTokenProvider myJwtTokenProvider;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         if(userDTO == null || userDTO.getPassword() == null)
             throw new RuntimeException("Invalid Password!");
+
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         UserEntity userEntity = userDTO.toEntity();
         UserEntity result = userService.join(userEntity);
@@ -36,7 +42,7 @@ public class UserController {
         UserEntity userEntity = userService.getByCredentials(userDTO.getUsername(), userDTO.getPassword());
 
         if(userEntity != null) {
-            String token = myJwtTokenProvider.createMyToken(userEntity, 1000 * 60); // ms 1000이 1초
+            String token = myJwtTokenProvider.createMyToken(userEntity, 1000 * 60 * 2); // ms 1000이 1초
             userDTO.setToken(token);
 
             return ResponseEntity.ok().body(userDTO); // Token 이 포함된 정보가 응답된다.
