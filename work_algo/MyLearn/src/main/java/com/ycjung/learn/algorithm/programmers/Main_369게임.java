@@ -12,7 +12,7 @@ public class Main_369게임 {
         int count = 0;
         for (char c : orderArr) {
             int intC = Integer.valueOf(c + "");
-            if (intC % 3 == 0 && intC != -1 && intC != 0) {
+            if (intC % 3 == 0 && intC != -1 && intC != 0) { // 숫자가 0 일 때도 있으니 제외해줘야 된다!
                 count++;
             }
         }
