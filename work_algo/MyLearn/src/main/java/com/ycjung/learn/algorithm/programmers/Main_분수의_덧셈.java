@@ -9,7 +9,7 @@ public class Main_분수의_덧셈 {
 
         int i = 2;
         while (i <= denom) {
-            if(numer % i == 0 && denom % i == 0) {
+            if(numer % i == 0 && denom % i == 0) { // 기약 분수 처리 확실하게.
                 numer = numer / i;
                 denom = denom / i;
             } else {
